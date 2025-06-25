@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()  # Load from .env
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
