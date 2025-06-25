@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()  # Load from .env
 
 DATABASE_URL = os.getenv("DATABASE_URL")
-print("DB_URL:", DATABASE_URL)  # Check if it's actually loading
+# print("DB_URL:", DATABASE_URL)  # Check if it's actually loading
 
 
 engine = create_engine(DATABASE_URL)
