@@ -1,10 +1,18 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr, validator
+from datetime import date
+
 
 
 #this is for todos
 class TodoIn(BaseModel):
     title: str = Field(..., min_length=5, max_length=50)
-    date: str
+    date: date
+
+    @validator("date")
+    def validate_due_date(cls, v):
+        if v < date.today():
+            raise ValueError("Due date cannot be in the past")
+        return v
 
 class TodoOut(TodoIn):
     id: int
