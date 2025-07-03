@@ -18,54 +18,19 @@ app = FastAPI()
 
 
 
+origins = [
+    "https://taskify-app-wpmp.onrender.com",  # your frontend domain
+    "http://localhost:5173",  # local dev, optional
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Or your frontend's origin
+    allow_origins=origins,            # or ["*"] to allow all (not safe for production)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# # DB Dependency
-# def get_db():
-#     db = SessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()
-
-
-# before http req, res
-# @app.get("/todos", response_model=list[schemas.TodoOut])
-# def get_all_todos(db: Session = Depends(get_db)):
-#     return db.query(models.Todo).all()
-
-# @app.post("/todos", response_model=schemas.TodoOut)
-# def create_todo(todo: schemas.TodoIn, db: Session = Depends(get_db)):
-#     new_task = models.Todo(**todo.dict())
-#     db.add(new_task)
-#     db.commit()
-#     db.refresh(new_task)
-#     return new_task
-
-# @app.put("/todos/{task_id}", response_model=schemas.TodoOut)
-# def mark_complete(task_id: int, db: Session = Depends(get_db)):
-#     task = db.query(models.Todo).filter(models.Todo.id == task_id).first()
-#     if not task:
-#         raise HTTPException(status_code=404, detail="Task not found")
-#     task.completed = True
-#     db.commit()
-#     db.refresh(task)
-#     return task
-
-# @app.delete("/todos/{task_id}")
-# def delete_task(task_id: int, db: Session = Depends(get_db)):
-#     task = db.query(models.Todo).filter(models.Todo.id == task_id).first()
-#     if not task:
-#         raise HTTPException(status_code=404, detail="Task not found")
-#     db.delete(task)
-#     db.commit()
-#     return {"message": "Task deleted"}
 
 
 @app.get("/todos", response_model=list[schemas.TodoOut])
@@ -112,7 +77,7 @@ def delete_task(task_id: int, db: Session = Depends(get_db), current_user: dict 
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(models.User).filter(models.User.email == user.email).first()
     if existing_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(status_code=400, detail="Email already registered !!")
     
     hashed_pwd = utils.hash_password(user.password)
     new_user = models.User(username=user.username, email=user.email, hashed_password=hashed_pwd)
