@@ -51,7 +51,10 @@ def mark_complete(task_id: int, db: Session = Depends(get_db), current_user: dic
     task = db.query(models.Todo).filter(models.Todo.id == task_id, models.Todo.user_id == current_user.id).first()
     if not task:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found or not authorized")
-    task.completed = True
+    if task.completed == True:
+        task.completed = False
+    else:
+        task.completed = True
     db.commit()
     db.refresh(task)
     return task
