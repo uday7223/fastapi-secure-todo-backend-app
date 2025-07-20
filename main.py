@@ -18,16 +18,16 @@ app = FastAPI()
 
 
 
-# origins = [
-#     "https://taskify-app-wpmp.onrender.com",  # your frontend domain
-#     "http://localhost:5173",  # local dev, optional
-# ]
+origins = [
+    "https://taskify-app-wpmp.onrender.com",  # your frontend domain
+    "http://localhost:5173",  # local dev, optional
+]
 
 app.add_middleware(
     CORSMiddleware,
-    # allow_origins=origins,            # or ["*"] to allow all (not safe for production)
+    allow_origins=origins,       
 
-    allow_origins=["*"],
+    # allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
